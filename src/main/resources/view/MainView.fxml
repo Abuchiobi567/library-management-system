@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!--
+    MainView.fxml - Main GUI Layout
+
+    This FXML file defines the layout of the Library Management System GUI.
+    It uses a TabPane to organize different sections:
+    - Books Tab: Add, view, search, and delete books
+    - Members Tab: Register and manage members
+    - Loans Tab: Borrow and return books
+    - Reports Tab: View statistics and overdue books
+
+    The fx:controller attribute links this view to the MainController class.
+
+
+-->
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.library.controller.MainController"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Top: Title -->
+    <top>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Label text="Library Management System"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="Manage books, members, and loans"
+                   style="-fx-font-size: 12px; -fx-text-fill: #bdc3c7;"/>
+        </VBox>
+    </top>
+
+    <!-- Center: Main Content with Tabs -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+
+            <!-- ==================== BOOKS TAB ==================== -->
+            <Tab text="Books">
+                <VBox spacing="10" style="-fx-padding: 15;">
+
+                    <!-- Add Book Form -->
+                    <TitledPane text="Add New Book" expanded="true">
+                        <GridPane hgap="10" vgap="10" style="-fx-padding: 10;">
+                            <!-- Row 0 -->
+                            <Label text="Title:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="bookTitleField" promptText="Enter book title"
+                                       GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200"/>
+
+                            <Label text="Author:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                            <TextField fx:id="bookAuthorField" promptText="Enter author name"
+                                       GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="200"/>
+
+                            <!-- Row 1 -->
+                            <Label text="ISBN:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="bookIsbnField" promptText="Enter ISBN"
+                                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Genre:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                            <TextField fx:id="bookGenreField" promptText="Enter genre"
+                                       GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                            <!-- Row 2 -->
+                            <Label text="Year:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <TextField fx:id="bookYearField" promptText="Publication year"
+                                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                            <!-- Buttons -->
+                            <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="2"
+                                  GridPane.columnSpan="2">
+                                <Button text="Add Book" onAction="#handleAddBook"
+                                        style="-fx-background-color: #30734d; -fx-text-fill: white;"/>
+                                <Button text="Clear" onAction="#clearBookForm"
+                                        style="-fx-background-color: #95a5a6; -fx-text-fill: #eae0e0;"/>
+                            </HBox>
+                        </GridPane>
+                    </TitledPane>
+
+                    <!-- Search Section -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Search:"/>
+                        <TextField fx:id="bookSearchField" promptText="Search by title..." prefWidth="300"/>
+                        <Button text="Search" onAction="#handleSearchBook"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                        <Button text="Delete Selected" onAction="#handleDeleteBook"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <!-- Books Table -->
+                    <TableView fx:id="bookTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="bookIdColumn" text="Book ID" prefWidth="80"/>
+                            <TableColumn fx:id="bookTitleColumn" text="Title" prefWidth="250"/>
+                            <TableColumn fx:id="bookAuthorColumn" text="Author" prefWidth="180"/>
+                            <TableColumn fx:id="bookGenreColumn" text="Genre" prefWidth="120"/>
+                            <TableColumn fx:id="bookAvailableColumn" text="Status" prefWidth="100"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No books in the library yet. Add some books above!"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+            </Tab>
+
+            <!-- ==================== MEMBERS TAB ==================== -->
+            <Tab text="Members">
+                <VBox spacing="10" style="-fx-padding: 15;">
+
+                    <!-- Register Member Form -->
+                    <TitledPane text="Register New Member" expanded="true">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+
+                            <!-- Member Type Selection -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Member Type:"/>
+                                <ComboBox fx:id="memberTypeCombo" prefWidth="150"/>
+                            </HBox>
+
+                            <!-- Common Fields -->
+                            <GridPane hgap="10" vgap="10">
+                                <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="memberNameField" promptText="Enter full name"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200"/>
+
+                                <Label text="Email:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                                <TextField fx:id="memberEmailField" promptText="Enter email address"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="200"/>
+
+                                <Label text="Phone:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="memberPhoneField" promptText="Enter phone number"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            </GridPane>
+
+                            <!-- Student-specific Fields -->
+                            <TitledPane text="Student Details" expanded="true">
+                                <GridPane hgap="10" vgap="10" style="-fx-padding: 5;">
+                                    <Label text="Student ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="studentIdField" promptText="University student ID"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="150"/>
+
+                                    <Label text="Course:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                                    <TextField fx:id="studentCourseField" promptText="Course name"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
+
+                                    <Label text="Year:" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+                                    <TextField fx:id="studentYearField" promptText="1-5"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="5" prefWidth="50"/>
+                                </GridPane>
+                            </TitledPane>
+
+                            <!-- Staff-specific Fields -->
+                            <TitledPane text="Staff Details" expanded="true">
+                                <GridPane hgap="10" vgap="10" style="-fx-padding: 5;">
+                                    <Label text="Employee ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="staffEmployeeIdField" promptText="Employee ID"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="150"/>
+
+                                    <Label text="Department:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                                    <TextField fx:id="staffDepartmentField" promptText="Department"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
+
+                                    <Label text="Position:" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+                                    <TextField fx:id="staffPositionField" promptText="Job title"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="5" prefWidth="150"/>
+                                </GridPane>
+                            </TitledPane>
+
+                            <!-- Buttons -->
+                            <HBox spacing="10">
+                                <Button text="Register Member" onAction="#handleAddMember"
+                                        style="-fx-background-color: #39644b; -fx-text-fill: white;"/>
+                                <Button text="Clear Form" onAction="#clearMemberForm"
+                                        style="-fx-background-color: #70abaf; -fx-text-fill: white;"/>
+                            </HBox>
+
+                        </VBox>
+                    </TitledPane>
+
+                    <!-- Search Section -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Search:"/>
+                        <TextField fx:id="memberSearchField" promptText="Search by name..." prefWidth="300"/>
+                        <Button text="Search" onAction="#handleSearchMember"
+                                style="-fx-background-color: #2c80b8; -fx-text-fill: white;"/>
+                        <Button text="Delete Selected" onAction="#handleDeleteMember"
+                                style="-fx-background-color: #862f25; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <!-- Members Table -->
+                    <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="memberIdColumn" text="Member ID" prefWidth="100"/>
+                            <TableColumn fx:id="memberNameColumn" text="Name" prefWidth="200"/>
+                            <TableColumn fx:id="memberTypeColumn" text="Type" prefWidth="100"/>
+                            <TableColumn fx:id="memberEmailColumn" text="Email" prefWidth="200"/>
+                            <TableColumn fx:id="memberBooksColumn" text="Books Borrowed" prefWidth="120"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No members registered yet. Register members above!"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+            </Tab>
+
+            <!-- ==================== LOANS TAB ==================== -->
+            <Tab text="Loans">
+                <VBox spacing="15" style="-fx-padding: 15;">
+
+                    <!-- Borrow Book Section -->
+                    <TitledPane text="Borrow Book" expanded="true">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                <VBox spacing="5">
+                                    <Label text="Select Book (Available Only):"/>
+                                    <ComboBox fx:id="loanBookCombo" prefWidth="300"
+                                              promptText="Select a book to borrow"/>
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <Label text="Select Member:"/>
+                                    <ComboBox fx:id="loanMemberCombo" prefWidth="300"
+                                              promptText="Select a member"/>
+                                </VBox>
+
+                                <Button text="Borrow Book" onAction="#handleBorrowBook"
+                                        style="-fx-background-color: #2a814e; -fx-text-fill: white; -fx-font-size: 14px;"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <!-- Return Book Section -->
+                    <TitledPane text="Return Book" expanded="true">
+                        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+                            <Label text="Enter Book ID:"/>
+                            <TextField fx:id="returnBookIdField" promptText="e.g., BK001" prefWidth="150"/>
+                            <Button text="Return Book" onAction="#handleReturnBook"
+                                    style="-fx-background-color: #570e73; -fx-text-fill: #ece0e0; -fx-font-size: 14px;"/>
+                        </HBox>
+                    </TitledPane>
+
+                    <!-- Active Loans Table -->
+                    <Label text="Active Loans:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <TableView fx:id="loanTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="loanIdColumn" text="Loan ID" prefWidth="80"/>
+                            <TableColumn fx:id="loanBookColumn" text="Book ID" prefWidth="100"/>
+                            <TableColumn fx:id="loanMemberColumn" text="Member ID" prefWidth="100"/>
+                            <TableColumn fx:id="loanBorrowDateColumn" text="Borrowed" prefWidth="120"/>
+                            <TableColumn fx:id="loanDueDateColumn" text="Due Date" prefWidth="120"/>
+                            <TableColumn fx:id="loanStatusColumn" text="Status" prefWidth="100"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No active loans. Use the form above to borrow books!"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+            </Tab>
+
+            <!-- ==================== REPORTS TAB ==================== -->
+            <Tab text="Reports">
+                <VBox spacing="15" style="-fx-padding: 15;">
+
+                    <!-- Statistics Section -->
+                    <TitledPane text="Library Statistics" expanded="true">
+                        <GridPane hgap="30" vgap="15" style="-fx-padding: 15;">
+                            <!-- Row 0 -->
+                            <VBox GridPane.rowIndex="0" GridPane.columnIndex="0"
+                                  style="-fx-background-color: #0d6caa; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Total Books" style="-fx-text-fill: #e3dfdf;"/>
+                                <Label fx:id="totalBooksLabel" text="0"
+                                       style="-fx-text-fill: #e3e1e1; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <VBox GridPane.rowIndex="0" GridPane.columnIndex="1"
+                                  style="-fx-background-color: #32754e; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Available Books" style="-fx-text-fill: white;"/>
+                                <Label fx:id="availableBooksLabel" text="0"
+                                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <VBox GridPane.rowIndex="0" GridPane.columnIndex="2"
+                                  style="-fx-background-color: #9943bb; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Total Members" style="-fx-text-fill: white;"/>
+                                <Label fx:id="totalMembersLabel" text="0"
+                                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <!-- Row 1 -->
+                            <VBox GridPane.rowIndex="1" GridPane.columnIndex="0"
+                                  style="-fx-background-color: #9f732b; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Active Loans" style="-fx-text-fill: white;"/>
+                                <Label fx:id="activeLoansLabel" text="0"
+                                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <VBox GridPane.rowIndex="1" GridPane.columnIndex="1"
+                                  style="-fx-background-color: #8f1c0e; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Overdue Loans" style="-fx-text-fill: white;"/>
+                                <Label fx:id="overdueLoansLabel" text="0"
+                                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <VBox GridPane.rowIndex="1" GridPane.columnIndex="2"
+                                  style="-fx-background-color: #9b5e29; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Total Fines" style="-fx-text-fill: white;"/>
+                                <Label fx:id="totalFinesLabel" text="£0.00"
+                                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            </VBox>
+                        </GridPane>
+                    </TitledPane>
+
+                    <!-- Refresh Button -->
+                    <HBox>
+                        <Button text="Refresh Statistics" onAction="#updateReportLabels"
+                                style="-fx-background-color: #1a5e8a; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <!-- Overdue Books Table -->
+                    <Label text="Overdue Books:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <TableView fx:id="overdueTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="overdueBookColumn" text="Book ID" prefWidth="150"/>
+                            <TableColumn fx:id="overdueMemberColumn" text="Member ID" prefWidth="150"/>
+                            <TableColumn fx:id="overdueDaysColumn" text="Days Overdue" prefWidth="150"/>
+                            <TableColumn fx:id="overdueFineColumn" text="Fine" prefWidth="150"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No overdue books. Great job!"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+    <!-- Bottom: Status Bar -->
+    <bottom>
+        <HBox style="-fx-background-color: #274868; -fx-padding: 10;" alignment="CENTER_LEFT">
+            <Label text="Library Management System v1.0 | Data is automatically saved"
+                   style="-fx-text-fill: #1c425c;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

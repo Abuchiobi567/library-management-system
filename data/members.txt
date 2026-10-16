@@ -1,0 +1,4 @@
+STUDENT,MEM001,Alice Johnson,alice.johnson@uni.ac.uk,07123456789,2026-01-15,STU001,Computer Science,2,5,0
+STUDENT,MEM002,Bob Williams,bob.williams@uni.ac.uk,07234567890,2026-01-15,STU002,Software Engineering,3,5,0
+STAFF,MEM003,Dr. Sarah Brown,sarah.brown@uni.ac.uk,07345678901,2026-01-15,EMP001,Computing Department,Senior Lecturer,10,0
+STAFF,MEM004,Prof. Michael Davis,michael.davis@uni.ac.uk,07456789012,2026-01-15,EMP002,Library Services,Head Librarian,10,0

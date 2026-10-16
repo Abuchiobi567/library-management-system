@@ -1,0 +1,7 @@
+BOOK,BK001,Introduction to Java Programming,John Smith,978-0134670942,Programming,2020,true
+BOOK,BK002,Data Structures and Algorithms,Jane Doe,978-0262033848,Computer Science,2019,true
+BOOK,BK003,The Great Gatsby,F. Scott Fitzgerald,978-0743273565,Fiction,1925,true
+BOOK,BK004,Clean Code,Robert C. Martin,978-0132350884,Programming,2008,true
+BOOK,BK005,To Kill a Mockingbird,Harper Lee,978-0446310789,Fiction,1960,true
+EBOOK,EB001,Learning Python,Mark Lutz,978-1449355739,Programming,2013,true,PDF,15.5,https://example.com/python
+EBOOK,EB002,JavaScript: The Good Parts,Douglas Crockford,978-0596517748,Programming,2008,true,EPUB,8.2,https://example.com/javascript
